@@ -35,20 +35,19 @@ export default function NotePreviewClient({ id }: Props) {
   }
 
   return (
+      <Modal onClose={() => router.back()}>
     <div className={css.container}>
       <div className={css.item}>
         <div className={css.header}>
           <h2>{data.title}</h2>
+          <p>{data.tag}</p>
         </div>
 
-        <p className={css.tag}>{data.tag}</p>
+        <p>{data.content}</p>
 
-        <p className={css.content}>{data.content}</p>
-
-        <p className={css.date}>
-          {new Date(data.createdAt).toLocaleDateString()}
-        </p>
+        <p>{new Date(data.createdAt).toLocaleDateString()}</p>
       </div>
     </div>
+  </Modal>
   );
 }
