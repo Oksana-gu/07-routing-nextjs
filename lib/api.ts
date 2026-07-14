@@ -7,17 +7,6 @@ export interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
 }
-export type category = {
-  id: string;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string;
-}
-export const getCategories = async () => {
-  const res = await axios<category[]>('/categories');
-  return res.data;
-};
 
 interface FetchNotesParams {
   page: number;
@@ -36,7 +25,7 @@ export async function fetchNotes({
   page = 1,
   search = "",
   tag,
-}: FetchNotesParams) {
+}: FetchNotesParams):Promise<FetchNotesResponse> {
   const params = new URLSearchParams();
 
   params.set("page", String(page));
@@ -49,7 +38,10 @@ export async function fetchNotes({
     params.set("tag", tag);
   }
 
-  const { data } = await instance.get(`/notes?${params.toString()}`);
+ const { data } =
+  await instance.get<FetchNotesResponse>(
+    `/notes?${params.toString()}`
+  );
 
   return data;
 }

@@ -16,33 +16,25 @@ import NoteForm from '@/components/NoteForm/NoteForm'
 import css from './Notes.client.module.css';
 
 interface NotesClientProps {
-  page: number;
-  search: string;
-  tag: string;
+  tag?: string;
 }
 
 export default function NotesClient({
-  page: initialPage,
-  search: initialSearch,
-  tag: initialTag,
+  tag,
 }: NotesClientProps) {
-  const [page, setPage] = useState<number>(initialPage);
-  const [search, setSearch] = useState<string>(initialSearch);
-  const [debouncedSearch, setDebouncedSearch] = useState<string>(initialSearch);
-  const tag = initialTag;
-  const [isModalOpen, setIsModalOpen] =
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+const [isModalOpen, setIsModalOpen] =
   useState(false);
 
-
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setDebouncedSearch(search);
+  const timeout = setTimeout(() => {
+    setDebouncedSearch(search);
+  }, 500);
 
-      setPage(1);
-    }, 500);
-
-    return () => clearTimeout(timeout);
-  }, [search]);
+  return () => clearTimeout(timeout);
+}, [search]);
 
 
     useEffect(() => {
@@ -102,9 +94,11 @@ export default function NotesClient({
         </button>
       </header>
 
-      {data && (
-        <NoteList notes={data.notes} />
-      )}
+      {data?.notes.length ? (
+  <NoteList notes={data.notes} />
+) : (
+  <p>No notes found.</p>
+)}
 
       {data && data.totalPages > 1 && (
         <Pagination
