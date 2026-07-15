@@ -26,7 +26,11 @@ export default function NotesClient({
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
 const [isModalOpen, setIsModalOpen] =
-  useState(false);
+    useState(false);
+  const handleSearchChange = (value: string) => {
+  setSearch(value);
+  setPage(1);
+};
 
   useEffect(() => {
   const timeout = setTimeout(() => {
@@ -83,7 +87,7 @@ const [isModalOpen, setIsModalOpen] =
       <header className={css.toolbar}>
         <SearchBox
           value={search}
-          onChange={setSearch}
+          onChange={handleSearchChange}
         />
 
         <button
